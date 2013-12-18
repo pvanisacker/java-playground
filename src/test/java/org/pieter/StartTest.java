@@ -24,5 +24,6 @@ public class StartTest {
         HTTPIntervalInput input = new HTTPIntervalInput("localhost", 69, "lalal.txt");
         assertEquals("localhost", input.getHost());
         assertEquals(69, input.getPort());
+
     }
 }
