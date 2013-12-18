@@ -22,13 +22,28 @@
 			<version>3.2</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency><!-- must be on the classpath --><groupId>org.jacoco</groupId><artifactId>org.jacoco.agent</artifactId><classifier>runtime</classifier><version>0.6.3.201306030806</version><scope>test</scope></dependency>
+		<dependency><!-- must be on the classpath -->
+			<groupId>org.jacoco</groupId>
+			<artifactId>org.jacoco.agent</artifactId>
+			<classifier>runtime</classifier>
+			<version>0.6.3.201306030806</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
@@ -100,7 +115,7 @@
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.6.3.201306030806</version>
-				</plugin>
+			</plugin>
 		</plugins>
 	</reporting>
 </project>
