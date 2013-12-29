@@ -126,15 +126,6 @@
    <rule ref="rulesets/java/controversial.xml/AvoidLiteralsInIfCondition"/>
    <rule ref="rulesets/java/controversial.xml/UseObjectForClearerAPI"/>
    <rule ref="rulesets/java/controversial.xml/UseConcurrentHashMap"/>
-   <rule ref="rulesets/java/j2ee.xml/UseProperClassLoader"/>
-   <rule ref="rulesets/java/j2ee.xml/MDBAndSessionBeanNamingConvention"/>
-   <rule ref="rulesets/java/j2ee.xml/RemoteSessionInterfaceNamingConvention"/>
-   <rule ref="rulesets/java/j2ee.xml/LocalInterfaceSessionNamingConvention"/>
-   <rule ref="rulesets/java/j2ee.xml/LocalHomeNamingConvention"/>
-   <rule ref="rulesets/java/j2ee.xml/RemoteInterfaceNamingConvention"/>
-   <rule ref="rulesets/java/j2ee.xml/DoNotCallSystemExit"/>
-   <rule ref="rulesets/java/j2ee.xml/StaticEJBFieldShouldBeFinal"/>
-   <rule ref="rulesets/java/j2ee.xml/DoNotUseThreads"/>
    <rule ref="rulesets/java/unnecessary.xml/UnnecessaryConversionTemporary"/>
    <rule ref="rulesets/java/unnecessary.xml/UnnecessaryReturn"/>
    <rule ref="rulesets/java/unnecessary.xml/UnnecessaryFinalModifier"/>

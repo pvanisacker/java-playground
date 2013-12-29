@@ -1,63 +1,140 @@
 package org.pieter.bdc.input;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.pieter.bdc.exceptions.ValidationException;
 
 /**
  * @author pieter
  */
 public class HTTPIntervalInput implements IntervalInput {
 
-    private final String m_host;
-    private final Integer m_port;
-    private final String m_request;
-    private final String m_proxy_host;
-    private final String m_proxy_port;
-
     /**
-     * This creates a HTTP Interval Input object.
+     * The logger for this class.
      */
-    public HTTPIntervalInput() {
-        m_host = null;
-        m_port = null;
-        m_request = null;
-        m_proxy_host = null;
-        m_proxy_port = null;
-    }
+    private static final Logger LOG = LogManager.getLogger(HTTPIntervalInput.class.getName());
+    private static final String PROPS_URI = "input.uri";
+    private static final String PROPS_PROXY_HOST = "input.proxy_host";
+    private static final String PROPS_PROXY_PORT = "input.proxy_port";
 
-    /**
-     * @param host The hostname to check
-     * @param port The port to use
-     * @param request The actual request
-     */
-    public HTTPIntervalInput(final String host, final int port, final String request) {
-        m_host = host;
-        m_port = port;
-        m_request = request;
-        m_proxy_host = null;
-        m_proxy_port = null;
-    }
+    private URI m_uri;
+    private String m_proxy_host;
+    private Integer m_proxy_port;
 
     /**
      * Fetch the http response.
      * @return the response.
      */
+    @Override
+    @SuppressWarnings("PMD.LawOfDemeter")
     public final String getData() {
-        HttpClient client = HttpClients.createDefault();
-        return "";
+        String content = null;
+        final HttpClient client = HttpClients.createDefault();
+        final HttpGet httpGet = new HttpGet(this.m_uri);
+
+        HttpResponse response;
+        try {
+            response = client.execute(httpGet);
+            LOG.debug(response.getStatusLine().toString());
+            final HttpEntity entity = response.getEntity();
+            // do something useful with the response body
+            // and ensure it is fully consumed
+            content = EntityUtils.toString(entity);
+            EntityUtils.consume(entity);
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+        return content;
     }
 
     /**
-     * @return the hostname
+     * Set the URI.
+     * @param uri The uri.
      */
-    public final String getHost() {
-        return this.m_host;
+    public final void setURI(final URI uri) {
+        this.m_uri = uri;
+    }
+
+    public final URI getURI() {
+        return m_uri;
+    }
+
+    public final void setProxyHost(final String proxy) {
+        this.m_proxy_host = proxy;
+    }
+
+    public final void setProxyPort(final Integer port) {
+        this.m_proxy_port = port;
     }
 
     /**
-     * @return the port number.
+     * Check if all the config arguments provided are ok.
+     * @param props Properties provided.
+     * @return If the validation was ok or not.
+     * @throws ValidationException
      */
-    public final int getPort() {
-        return this.m_port;
+    @Override
+    public final Boolean validate(final Properties props) throws ValidationException {
+        final List<String> errors = new ArrayList<String>();
+
+        // check the provided url
+        String url = props.getProperty(HTTPIntervalInput.PROPS_URI);
+        if (url == null) {
+            errors.add("No URI provided, can't continue");
+        } else {
+            // check if the URI is valid
+            try {
+                URI uri = new URI(url);
+            } catch (URISyntaxException use) {
+                errors.add("Invalid URL provided");
+            }
+        }
+
+        // check the provided proxy hostname
+        if (props.getProperty(HTTPIntervalInput.PROPS_PROXY_HOST) == null) {
+            LOG.info("No proxy host set for the HTTP Interval Input");
+        } else {
+
+        }
+
+        // check the provided proxy port
+        final String proxyPort = props.getProperty(HTTPIntervalInput.PROPS_PROXY_PORT);
+        if (proxyPort == null || proxyPort.isEmpty()) {
+            LOG.info("No proxy port set for the HTTP Interval Input");
+        } else {
+            final Integer port = Integer.parseInt(proxyPort);
+            if (port == null) {
+                LOG.error("Port is an invalid number");
+            } else {
+                if (port <= 0 || port >= 65535) {
+                    LOG.error("Port is an invalid TCP port number");
+                }
+            }
+        }
+        if (errors.size() != 0) {
+            throw new ValidationException("Input validation errors");
+        }
+        return true;
+    }
+
+    public final String getProxyHost() {
+        return this.m_proxy_host;
+    }
+
+    public final Integer getProxyPort() {
+        return this.m_proxy_port;
     }
 }

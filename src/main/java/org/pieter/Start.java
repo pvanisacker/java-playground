@@ -1,53 +1,53 @@
 package org.pieter;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.pieter.bdc.Importer;
+import org.pieter.bdc.exceptions.ValidationException;
 
 public class Start {
 
-    public static void main(String[] args) {
-        // Do a request
-        CloseableHttpClient httpclient = HttpClients.createDefault();
-        HttpGet httpGet = new HttpGet("http://192.168.1.16:8888/beeswax/");
+    /**
+     * Logger for this class.
+     */
+    private static final Logger LOG = LogManager.getLogger(Start.class.getName());
 
-        // The underlying HTTP connection is still held by the response object
-        // to allow the response content to be streamed directly from the
-        // network socket.
-        // In order to ensure correct deallocation of system resources
-        // the user MUST either fully consume the response content or abort
-        // request
-        // execution by calling CloseableHttpResponse#close().
+    /**
+     * Default config file to search on classpath.
+     */
+    private static final String CONFIG = "fetcher.properties";
 
-        CloseableHttpResponse response1 = null;
+    /**
+     * Start the complete thing.
+     * @param args the command line arguments.
+     */
+    public static void main(final String[] args) {
+        final Properties prop = new Properties();
+        final ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        final InputStream stream = loader.getResourceAsStream(Start.CONFIG);
+        if (stream == null) {
+            LOG.error("Could not find needed {} file in the classpath", Start.CONFIG);
+            System.exit(1);
+        }
         try {
-            response1 = httpclient.execute(httpGet);
-            System.out.println(response1.getStatusLine());
-            HttpEntity entity1 = response1.getEntity();
-            // do something useful with the response body
-            // and ensure it is fully consumed
-            EntityUtils.consume(entity1);
-        } catch (IOException ioe) {
-            System.out.println("Got error");
-        } finally {
-            if (response1 != null) {
-                try {
-                    response1.close();
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }
+            prop.load(stream);
+        } catch (IOException e) {
+            LOG.error("Could not load configuration: {}", e.getMessage());
+            System.exit(1);
         }
 
-        // parse the json
-
-        // store to file
+        final Importer imp = new Importer(prop);
+        try {
+            imp.validate();
+        } catch (ValidationException e) {
+            LOG.error("Error during validation: {}", e.getMessage());
+            System.exit(1);
+        }
+        imp.start();
+        LOG.info("Done");
     }
-
 }
