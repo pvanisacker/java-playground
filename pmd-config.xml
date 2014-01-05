@@ -24,7 +24,6 @@
    <rule ref="rulesets/java/coupling.xml/ExcessiveImports"/>
    <rule ref="rulesets/java/coupling.xml/LooseCoupling"/>
    <rule ref="rulesets/java/coupling.xml/LoosePackageCoupling"/>
-   <rule ref="rulesets/java/coupling.xml/LawOfDemeter"/>
    <rule ref="rulesets/java/android.xml/CallSuperFirst"/>
    <rule ref="rulesets/java/android.xml/CallSuperLast"/>
    <rule ref="rulesets/java/android.xml/DoNotHardCodeSDCard"/>

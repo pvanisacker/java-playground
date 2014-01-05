@@ -30,6 +30,9 @@ public class HTTPIntervalInput implements IntervalInput {
     private static final String PROPS_PROXY_HOST = "input.proxy_host";
     private static final String PROPS_PROXY_PORT = "input.proxy_port";
 
+    private static final Integer TCP_PORT_MAX = 65535;
+    private static final Integer TCP_PORT_MIN = 0;
+
     private URI m_uri;
     private String m_proxy_host;
     private Integer m_proxy_port;
@@ -39,7 +42,6 @@ public class HTTPIntervalInput implements IntervalInput {
      * @return the response.
      */
     @Override
-    @SuppressWarnings("PMD.LawOfDemeter")
     public final String getData() {
         String content = null;
         final HttpClient client = HttpClients.createDefault();
@@ -84,10 +86,9 @@ public class HTTPIntervalInput implements IntervalInput {
      * Check if all the config arguments provided are ok.
      * @param props Properties provided.
      * @return If the validation was ok or not.
-     * @throws ValidationException
      */
     @Override
-    public final Boolean validate(final Properties props) throws ValidationException {
+    public final Boolean validate(final Properties props) {
         final List<String> errors = new ArrayList<String>();
 
         // check the provided url
@@ -119,12 +120,12 @@ public class HTTPIntervalInput implements IntervalInput {
             if (port == null) {
                 LOG.error("Port is an invalid number");
             } else {
-                if (port <= 0 || port >= 65535) {
+                if (port <= TCP_PORT_MIN || port >= TCP_PORT_MAX) {
                     LOG.error("Port is an invalid TCP port number");
                 }
             }
         }
-        if (errors.size() != 0) {
+        if (!errors.isEmpty()) {
             throw new ValidationException("Input validation errors");
         }
         return true;

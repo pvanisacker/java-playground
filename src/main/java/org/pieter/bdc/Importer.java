@@ -32,9 +32,8 @@ public class Importer {
 
     /**
      * Validate the config in the properties file.
-     * @throws ValidationException Exception thrown when config is invalid.
      */
-    public final void validate() throws ValidationException {
+    public final void validate() {
         final List<String> errors = new ArrayList<String>();
 
         // Check if the input class is ok, exists and stuff
@@ -73,7 +72,7 @@ public class Importer {
             }
         }
 
-        if (errors.size() != 0) {
+        if (!errors.isEmpty()) {
             for (String error : errors) {
                 LOG.error(error);
             }
