@@ -26,6 +26,14 @@ public class Start {
     private static final String CONFIG = "fetcher.properties";
 
     /**
+     * Protected constructor to ensure this is not subclassed.
+     */
+    protected Start() {
+        // prevents calls from subclass
+        throw new UnsupportedOperationException();
+    }
+
+    /**
      * Start the complete thing.
      * @param args the command line arguments.
      */

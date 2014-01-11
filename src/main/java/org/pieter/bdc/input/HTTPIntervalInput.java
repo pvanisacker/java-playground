@@ -33,9 +33,9 @@ public class HTTPIntervalInput implements IntervalInput {
     private static final Integer TCP_PORT_MAX = 65535;
     private static final Integer TCP_PORT_MIN = 0;
 
-    private URI m_uri;
-    private String m_proxy_host;
-    private Integer m_proxy_port;
+    private URI mUri;
+    private String mProxyHost;
+    private Integer mProxyPort;
 
     /**
      * Fetch the http response.
@@ -45,7 +45,7 @@ public class HTTPIntervalInput implements IntervalInput {
     public final String getData() {
         String content = null;
         final HttpClient client = HttpClients.createDefault();
-        final HttpGet httpGet = new HttpGet(this.m_uri);
+        final HttpGet httpGet = new HttpGet(this.mUri);
 
         HttpResponse response;
         try {
@@ -67,19 +67,19 @@ public class HTTPIntervalInput implements IntervalInput {
      * @param uri The uri.
      */
     public final void setURI(final URI uri) {
-        this.m_uri = uri;
+        this.mUri = uri;
     }
 
     public final URI getURI() {
-        return m_uri;
+        return mUri;
     }
 
     public final void setProxyHost(final String proxy) {
-        this.m_proxy_host = proxy;
+        this.mProxyHost = proxy;
     }
 
     public final void setProxyPort(final Integer port) {
-        this.m_proxy_port = port;
+        this.mProxyPort = port;
     }
 
     /**
@@ -130,10 +130,10 @@ public class HTTPIntervalInput implements IntervalInput {
     }
 
     public final String getProxyHost() {
-        return this.m_proxy_host;
+        return this.mProxyHost;
     }
 
     public final Integer getProxyPort() {
-        return this.m_proxy_port;
+        return this.mProxyPort;
     }
 }

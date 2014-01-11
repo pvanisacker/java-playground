@@ -23,15 +23,15 @@ public class Importer {
      */
     private static final Logger LOG = LogManager.getLogger(Importer.class.getName());
 
-    private final Properties m_props;
-    private Boolean m_valid_config = false;
+    private final Properties mProps;
+    private Boolean mValidConfig = false;
 
     /**
      * Create the importer.
      * @param props configuration for the importers
      */
     public Importer(final Properties props) {
-        m_props = props;
+        mProps = props;
     }
 
     /**
@@ -41,7 +41,7 @@ public class Importer {
         final List<String> errors = new ArrayList<String>();
 
         // Check if the input class is ok, exists and stuff
-        final String inputClass = m_props.getProperty("input.class");
+        final String inputClass = mProps.getProperty("input.class");
         if (inputClass.trim().isEmpty()) {
             errors.add("Input class is not defined");
         } else if (inputClass != null && !inputClass.trim().isEmpty()) {
@@ -53,7 +53,7 @@ public class Importer {
         }
 
         // Check if the processor class is ok, exists and stuff
-        final String processorClass = m_props.getProperty("processor.class");
+        final String processorClass = mProps.getProperty("processor.class");
         if (processorClass.trim().isEmpty()) {
             errors.add("Processor class is not defined");
         } else if (processorClass != null && !processorClass.trim().isEmpty()) {
@@ -65,7 +65,7 @@ public class Importer {
         }
 
         // Check if the input class is ok, exists and stuff
-        final String outputClass = m_props.getProperty("output.class");
+        final String outputClass = mProps.getProperty("output.class");
         if (outputClass.trim().isEmpty()) {
             errors.add("Output class is not defined");
         } else if (outputClass != null && !outputClass.trim().isEmpty()) {
@@ -82,7 +82,7 @@ public class Importer {
             }
             throw new ValidationException("Config file is not ok, exiting");
         }
-        m_valid_config = true;
+        mValidConfig = true;
         LOG.info("Validation finished ok");
     }
 
@@ -90,13 +90,13 @@ public class Importer {
      * This starts the complete process.
      */
     public final void start() {
-        if (m_valid_config) {
+        if (mValidConfig) {
             LOG.info("Start processing");
             // Do a request
             String data = null;
             URI uri = null;
             try {
-                uri = new URI(m_props.getProperty("input.uri"));
+                uri = new URI(mProps.getProperty("input.uri"));
             } catch (URISyntaxException ure) {
                 LOG.error(ure.getMessage());
             }
