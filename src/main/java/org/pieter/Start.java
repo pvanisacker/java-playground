@@ -29,7 +29,6 @@ public class Start {
      * Protected constructor to ensure this is not subclassed.
      */
     protected Start() {
-        // prevents calls from subclass
         throw new UnsupportedOperationException();
     }
 

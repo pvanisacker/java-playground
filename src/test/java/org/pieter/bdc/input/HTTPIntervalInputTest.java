@@ -43,8 +43,8 @@ public class HTTPIntervalInputTest {
     public final void testSetURI() throws URISyntaxException {
         final String url = "http://localhost:8080/test/page.php?test1=value1";
         final URI uri = new URI(url);
-        input.setURI(uri);
-        assertEquals("Test if URI is set correctly", input.getURI(), uri);
+        input.setUri(uri);
+        assertEquals("Test if URI is set correctly", input.getUri(), uri);
     }
 
     /**

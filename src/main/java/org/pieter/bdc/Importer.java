@@ -101,7 +101,7 @@ public class Importer {
                 LOG.error(ure.getMessage());
             }
             final HTTPIntervalInput input = new HTTPIntervalInput();
-            input.setURI(uri);
+            input.setUri(uri);
             data = input.getData();
             LOG.info("Got data: " + data.length());
 
