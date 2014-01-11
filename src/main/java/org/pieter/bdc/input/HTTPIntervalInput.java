@@ -107,8 +107,6 @@ public class HTTPIntervalInput implements IntervalInput {
         // check the provided proxy hostname
         if (props.getProperty(HTTPIntervalInput.PROPS_PROXY_HOST) == null) {
             LOG.info("No proxy host set for the HTTP Interval Input");
-        } else {
-
         }
 
         // check the provided proxy port

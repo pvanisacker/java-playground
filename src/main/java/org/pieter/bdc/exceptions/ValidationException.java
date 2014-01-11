@@ -6,7 +6,13 @@ package org.pieter.bdc.exceptions;
  */
 public class ValidationException extends RuntimeException {
 
-    public ValidationException(String message) {
+    private static final long serialVersionUID = 6422055112415508796L;
+
+    /**
+     * Exception constructor.
+     * @param message The exception message.
+     */
+    public ValidationException(final String message) {
         super(message);
     }
 }

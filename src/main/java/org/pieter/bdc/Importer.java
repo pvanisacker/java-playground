@@ -26,6 +26,10 @@ public class Importer {
     private final Properties m_props;
     private Boolean m_valid_config = false;
 
+    /**
+     * Create the importer.
+     * @param props configuration for the importers
+     */
     public Importer(final Properties props) {
         m_props = props;
     }
@@ -38,7 +42,7 @@ public class Importer {
 
         // Check if the input class is ok, exists and stuff
         final String inputClass = m_props.getProperty("input.class");
-        if (inputClass == null || inputClass.trim().isEmpty()) {
+        if (inputClass.trim().isEmpty()) {
             errors.add("Input class is not defined");
         } else if (inputClass != null && !inputClass.trim().isEmpty()) {
             try {
@@ -50,7 +54,7 @@ public class Importer {
 
         // Check if the processor class is ok, exists and stuff
         final String processorClass = m_props.getProperty("processor.class");
-        if (processorClass == null || processorClass.trim().isEmpty()) {
+        if (processorClass.trim().isEmpty()) {
             errors.add("Processor class is not defined");
         } else if (processorClass != null && !processorClass.trim().isEmpty()) {
             try {
@@ -62,7 +66,7 @@ public class Importer {
 
         // Check if the input class is ok, exists and stuff
         final String outputClass = m_props.getProperty("output.class");
-        if (outputClass == null || outputClass.trim().isEmpty()) {
+        if (outputClass.trim().isEmpty()) {
             errors.add("Output class is not defined");
         } else if (outputClass != null && !outputClass.trim().isEmpty()) {
             try {

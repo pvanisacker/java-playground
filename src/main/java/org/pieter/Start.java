@@ -9,6 +9,10 @@ import org.apache.logging.log4j.Logger;
 import org.pieter.bdc.Importer;
 import org.pieter.bdc.exceptions.ValidationException;
 
+/**
+ * Start class for the project.
+ * @author pieter
+ */
 public class Start {
 
     /**
