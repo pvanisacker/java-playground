@@ -112,6 +112,7 @@
 				<version>2.11</version>
 				<configuration>
 					<configLocation>checkstyle-config.xml</configLocation>
+					<propertiesLocation>checkstyle-maven.properties</propertiesLocation>
 				</configuration>
 				<reportSets>
 					<reportSet>

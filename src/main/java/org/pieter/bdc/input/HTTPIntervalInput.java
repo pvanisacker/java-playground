@@ -107,8 +107,8 @@ public class HTTPIntervalInput implements IntervalInput {
         }
 
         // check the provided proxy port
-        final String proxyPort = props.getProperty(HTTPIntervalInput.PROPS_PROXY_PORT);
-        result = this.validateProxyPort(proxyPort);
+        final String port = props.getProperty(HTTPIntervalInput.PROPS_PROXY_PORT);
+        result = this.validateProxyPort(port);
         if (result != null) {
             errors.add(result);
         }
@@ -131,8 +131,8 @@ public class HTTPIntervalInput implements IntervalInput {
         } else {
             // check if the URI is valid
             try {
-                final URI uri = new URI(url);
-                if (!uri.getScheme().equals("http://") && !uri.getScheme().equals("https://")) {
+                final URI pUri = new URI(url);
+                if (!pUri.getScheme().equals("http://") && !pUri.getScheme().equals("https://")) {
                     result = "Invalid URL provided, make sure it's a valid http:// or https:// one.";
                 }
             } catch (URISyntaxException use) {
@@ -153,15 +153,15 @@ public class HTTPIntervalInput implements IntervalInput {
 
     /**
      * Validate the proxy port if one is provided.
-     * @param proxyPort the port.
+     * @param pProxyPort the port.
      * @return The validation message or null if ok.
      */
-    private String validateProxyPort(final String proxyPort) {
+    private String validateProxyPort(final String pProxyPort) {
         String result = null;
-        if (proxyPort == null || proxyPort.isEmpty()) {
+        if (pProxyPort == null || pProxyPort.isEmpty()) {
             LOG.info("No proxy port set for the HTTP Interval Input");
         } else {
-            final Integer port = Integer.parseInt(proxyPort);
+            final Integer port = Integer.parseInt(pProxyPort);
             if (port == null) {
                 result = "Proxy port is an invalid number";
             } else {
